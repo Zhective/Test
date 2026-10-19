@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#efeee8">
+<title>A Little Gift</title>
+<style>
+:root{--paper:#f0efe9;--card:#fffefa;--ink:#252923;--muted:#777b72;--accent:#647a67;--accent-dark:#405845;--line:#dedfd6}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:grid;place-items:center;padding:20px;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.card{width:min(100%,470px);text-align:center;padding:30px 20px 26px;background:var(--card);border:1px solid var(--line);border-radius:24px;box-shadow:0 18px 55px #2529230d;overflow:hidden}
+.eyebrow{font-size:11px;letter-spacing:3px;font-weight:800;color:var(--accent);text-transform:uppercase}
+h1{font-size:clamp(27px,7vw,34px);letter-spacing:-1.2px;margin:10px 0 0;font-weight:750}
+.scene{height:270px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.gift{position:relative;width:148px;height:122px;margin-top:42px;cursor:pointer;z-index:3;transition:transform .2s;outline-offset:8px}
+.gift:hover{transform:scale(1.04)}
+.boxbody{position:absolute;bottom:0;left:5px;width:138px;height:91px;border-radius:4px 4px 10px 10px;background:linear-gradient(100deg,#647d68,#405845);box-shadow:0 9px 0 #334b39,0 17px 24px #25292317}
+.ribbon{position:absolute;top:31px;bottom:0;left:60px;width:29px;background:#d8c9a5;border-left:2px solid #e9dfc9;border-right:2px solid #e9dfc9}
+.lid{position:absolute;top:23px;left:-3px;width:154px;height:35px;border-radius:5px;background:linear-gradient(#819783,#607963);box-shadow:0 4px 0 #405845;transform-origin:12% 100%;z-index:5;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.bow{position:absolute;top:2px;left:54px;width:38px;height:26px;z-index:6}
+.bow:before,.bow:after{content:"";position:absolute;width:24px;height:16px;border:4px solid #d8c9a5;border-radius:80% 20% 70% 30%;top:3px}
+.bow:before{left:-9px;transform:rotate(28deg)}.bow:after{left:18px;transform:scaleX(-1) rotate(28deg)}
+.cat{position:absolute;width:83px;height:83px;opacity:0;bottom:34px;z-index:2;transform:translateY(100px) scale(.3);filter:drop-shadow(0 4px 2px #25292312)}
+.cat.one{left:5%;--rot:-13deg}.cat.two{left:calc(50% - 42px);width:92px;height:92px;--rot:2deg}.cat.three{right:5%;--rot:13deg}
+.cat svg{width:100%;height:100%;overflow:visible}
+.heart{position:absolute;opacity:0;width:13px;height:13px;border:2px solid #9caa94;transform:rotate(45deg);z-index:1}
+.heart:before,.heart:after{content:"";position:absolute;width:9px;height:9px;border:2px solid #9caa94;border-radius:50%;background:var(--card)}
+.heart:before{left:-2px;top:-7px;border-bottom:0}.heart:after{right:7px;top:-2px;border-right:0}
+.opened .lid{transform:translate(-7px,-63px) rotate(-21deg)}
+.opened .cat{animation:catpop .95s cubic-bezier(.2,.8,.2,1) forwards}
+.opened .cat.one{animation-delay:.05s}.opened .cat.two{animation-delay:.18s}.opened .cat.three{animation-delay:.3s}
+.opened .heart{animation:float 1.8s ease-out forwards}
+.opened .h1{left:14%;top:23%;animation-delay:.1s}.opened .h2{right:14%;top:18%;animation-delay:.35s}.opened .h3{left:48%;top:9%;animation-delay:.55s}.opened .h4{left:27%;top:46%;animation-delay:.7s}
+@keyframes catpop{0%{opacity:0;transform:translateY(100px) scale(.3)}65%{opacity:1;transform:translateY(-70px) scale(1.08) rotate(var(--rot))}82%{transform:translateY(-53px) scale(.96) rotate(var(--rot))}100%{opacity:1;transform:translateY(-57px) scale(1) rotate(var(--rot))}}
+@keyframes float{0%{opacity:0;translate:0 20px}25%{opacity:1}100%{opacity:0;translate:0 -75px}}
+.message{min-height:76px;opacity:0;transform:translateY(10px) scale(.94);transition:all .5s .35s}
+.opened .message{opacity:1;transform:translateY(0) scale(1)}
+.message h2{font-size:clamp(29px,8vw,36px);line-height:1.15;font-weight:850;margin:0;color:var(--accent-dark);letter-spacing:-1px}
+.message p{font-size:14px;margin:9px 0;color:var(--muted)}
+button{border:0;border-radius:10px;background:var(--accent-dark);color:white;font-weight:700;font-size:14px;padding:13px 22px;cursor:pointer;transition:background .2s,transform .15s}
+button:hover{background:#314735}button:active{transform:translateY(2px)}button:focus-visible{outline:3px solid #98ab96;outline-offset:4px}
+.hint{font-size:12px;color:var(--muted);margin-top:13px}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<main class="card" id="app">
+  <div class="eyebrow">A little surprise</div>
+  <h1>Just for you</h1>
+  <section class="scene" aria-label="A wrapped gift with cats inside">
+    <span class="heart h1" aria-hidden="true"></span><span class="heart h2" aria-hidden="true"></span><span class="heart h3" aria-hidden="true"></span><span class="heart h4" aria-hidden="true"></span>
+    <div class="cat one" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="M18 43 L18 12 L41 28 Q50 25 59 28 L82 12 L82 44 Q91 58 81 74 Q70 89 50 88 Q29 89 19 74 Q9 58 18 43Z" fill="#b8b8ae" stroke="#454b43" stroke-width="3" stroke-linejoin="round"/><path d="M25 25 L25 43 L39 32Z M75 25 L75 43 L61 32Z" fill="#d1a18e"/><ellipse cx="36" cy="54" rx="4" ry="6" fill="#30382f"/><ellipse cx="64" cy="54" rx="4" ry="6" fill="#30382f"/><path d="M46 64 Q50 69 54 64 L50 61Z" fill="#bd8279"/><path d="M50 66 Q45 73 39 68 M50 66 Q55 73 61 68" fill="none" stroke="#454b43" stroke-width="2" stroke-linecap="round"/><path d="M32 64 L12 60 M32 69 L13 72 M68 64 L88 60 M68 69 L87 72" stroke="#454b43" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+    <div class="cat two" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="M15 43 L18 12 L41 29 Q50 25 59 29 L82 12 L85 43 Q94 59 81 76 Q68 91 50 89 Q30 90 18 76 Q6 59 15 43Z" fill="#e0d7c8" stroke="#454b43" stroke-width="3" stroke-linejoin="round"/><path d="M25 25 L25 43 L39 33Z M75 25 L75 43 L61 33Z" fill="#c69a8b"/><path d="M31 53 Q37 47 43 53 M57 53 Q63 47 69 53" fill="none" stroke="#454b43" stroke-width="3" stroke-linecap="round"/><path d="M46 64 Q50 69 54 64 L50 61Z" fill="#bd8279"/><path d="M50 66 Q44 74 38 68 M50 66 Q56 74 62 68" fill="none" stroke="#454b43" stroke-width="2" stroke-linecap="round"/><path d="M32 64 L12 60 M32 69 L13 72 M68 64 L88 60 M68 69 L87 72" stroke="#454b43" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+    <div class="cat three" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="M18 43 L18 12 L41 28 Q50 25 59 28 L82 12 L82 44 Q91 58 81 74 Q70 89 50 88 Q29 89 19 74 Q9 58 18 43Z" fill="#777e75" stroke="#343b34" stroke-width="3" stroke-linejoin="round"/><path d="M25 25 L25 43 L39 32Z M75 25 L75 43 L61 32Z" fill="#c69a8b"/><ellipse cx="36" cy="54" rx="4" ry="6" fill="#252c25"/><ellipse cx="64" cy="54" rx="4" ry="6" fill="#252c25"/><path d="M46 64 Q50 69 54 64 L50 61Z" fill="#bd8279"/><path d="M50 66 Q45 73 39 68 M50 66 Q55 73 61 68" fill="none" stroke="#343b34" stroke-width="2" stroke-linecap="round"/><path d="M32 64 L12 60 M32 69 L13 72 M68 64 L88 60 M68 69 L87 72" stroke="#343b34" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+    <div class="gift" id="gift" role="button" tabindex="0" aria-label="Open the present">
+      <div class="boxbody"></div><div class="ribbon"></div><div class="lid"></div><div class="bow"></div>
+    </div>
+  </section>
+  <div class="message" aria-live="polite"><h2>I LOVE YOU</h2><p>You mean a lot to me.</p></div>
+  <button id="gift-button" type="button">Open the present</button>
+  <div class="hint" id="hint">Click the present to open it.</div>
+</main>
+<script>
+(function(){
+ const root=document.getElementById('app'),gift=document.getElementById('gift'),button=document.getElementById('gift-button'),hint=document.getElementById('hint');
+ let opened=false;
+ function toggle(){
+  opened=!opened;root.classList.toggle('opened',opened);
+  button.textContent=opened?'Replay surprise':'Open the present';
+  hint.textContent=opened?'A little surprise, just for you.':'Click the present to open it.';
+  if(opened){root.querySelectorAll('.cat,.heart').forEach(el=>{el.style.animation='none';void el.offsetWidth;el.style.animation='';});}
+ }
+ button.addEventListener('click',toggle);gift.addEventListener('click',toggle);
+ gift.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle();}});
+})();
+</script>
+</body>
+</html>
