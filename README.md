@@ -1,28 +1,41 @@
-# My Day
+# Fieldguide — Industry Learning Hub
 
-A beginner-friendly, mobile-friendly daily task planner built with plain HTML, CSS, and JavaScript. No build step or package installation is needed.
+A modern, responsive general industry training website built with plain HTML, CSS, and JavaScript. It is designed as a beginner-friendly starting point for workplace learning.
 
-## Features
+## Learning library
 
-- Add and delete tasks
-- Mark tasks as complete
-- Filter all, to-do, and completed tasks
-- Daily progress indicator
-- Saves tasks in this browser on this device
-- Responsive layout for phones and desktops
+- Workplace safety essentials
+- Following work instructions
+- Quality and consistency
+- Organizing a work area
+- Clear communication and handovers
+- Continuous improvement
 
-## Run it
+## Interactive features
 
-Open `index.html` in a modern browser, or publish it with GitHub Pages.
+- Search lessons and filter by topic
+- Open practical lesson guides
+- Complete a short, instant-feedback knowledge quiz
+- Use a start-of-task checklist that saves in the current browser
+- Responsive layout for desktop and mobile
+
+## Run locally
+
+Open `index.html` in a modern browser. No build tools, package installation, or backend are required.
 
 ## Publish with GitHub Pages
 
-1. Open this repository on GitHub and select **Settings**.
-2. Select **Pages** in the sidebar.
-3. Under **Build and deployment**, choose **Deploy from a branch**.
-4. Select branch `main` and folder `/(root)`, then save.
-5. Wait a few minutes. GitHub will show the website address in the Pages section.
+This repository includes `.github/workflows/pages.yml`, which deploys the site when changes are pushed to `main` and can also be started manually from the Actions tab.
 
-## Important note
+1. Open the repository **Settings → Pages**.
+2. Confirm the publishing source is set to **GitHub Actions**.
+3. Open **Actions** and check the latest **Deploy Fieldguide to GitHub Pages** run.
+4. When deployment succeeds, open **Settings → Pages → Visit site** for the published URL.
 
-Tasks are saved only in the current browser on the current device. They do not sync across devices and are not backed up to an account. This starter app has no login, server, or database, so do not store sensitive information in it.
+Publishing may take several minutes after a commit. See the [official GitHub Pages guide](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site).
+
+## Important safety note
+
+This site is a general educational resource. It does not replace site-specific risk assessments, formal training, certification, qualified supervision, or current approved workplace procedures. Always follow applicable local requirements and your organization's rules.
+
+The checklist is stored only in the current browser on this device; it is not synced to an account or database. Do not enter sensitive information.
