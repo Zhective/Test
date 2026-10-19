@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f2f1ec">
+<title>My Day — daily task planner</title>
+<style>
+:root{--ink:#20231f;--muted:#73786f;--paper:#fffefa;--line:#e5e3dc;--green:#426b50;--soft:#e8efe8}
+*{box-sizing:border-box}body{margin:0;background:#f2f1ec;color:var(--ink);font:16px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input{font:inherit}button{cursor:pointer}.shell{max-width:760px;margin:auto;padding:24px 16px 48px}header{display:flex;justify-content:space-between;align-items:center;margin:8px 0 28px;gap:12px}.brand{font-weight:800;font-size:1.25rem;letter-spacing:-.04em}.brand span{color:var(--green)}.date{color:var(--muted);font-size:.9rem;text-align:right}.hero{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:26px}.eyebrow{color:var(--green);font-size:.72rem;font-weight:750;letter-spacing:.12em;text-transform:uppercase}h1{font-size:clamp(2rem,7vw,3rem);line-height:1.06;letter-spacing:-.055em;margin:8px 0 10px}.subtitle{color:var(--muted);margin:0 0 22px}.progress-wrap{display:flex;align-items:center;gap:12px;margin-top:18px;color:var(--muted);font-size:.85rem}.progress{height:7px;flex:1;background:#e9e7df;border-radius:99px;overflow:hidden}.progress>div{height:100%;width:0;background:var(--green);transition:width .2s}form{display:flex;gap:8px;margin-top:22px}input[type=text]{width:100%;min-width:0;border:1px solid var(--line);border-radius:12px;padding:13px 14px;background:white;outline:none}input[type=text]:focus{border-color:var(--green);box-shadow:0 0 0 3px #426b501c}.primary{border:0;border-radius:12px;background:var(--green);color:white;padding:12px 18px;font-weight:700;white-space:nowrap}.primary:hover{background:#34573f}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:25px 2px 12px}h2{margin:0;font-size:1.1rem}.filters{display:flex;gap:5px;flex-wrap:wrap}.filter{border:1px solid transparent;background:transparent;color:var(--muted);border-radius:99px;padding:7px 10px;font-size:.83rem}.filter.active{color:var(--green);background:var(--soft);border-color:#d7e3d8;font-weight:700}#tasks{display:grid;gap:9px}.task{display:flex;align-items:center;gap:12px;background:var(--paper);border:1px solid var(--line);border-radius:15px;padding:14px}.check{width:22px;height:22px;flex:none;accent-color:var(--green)}.task-title{flex:1;overflow-wrap:anywhere}.task.done .task-title{color:#92968e;text-decoration:line-through}.delete,.text-button{border:0;background:transparent;color:var(--muted);border-radius:8px;padding:7px 9px}.delete:hover{color:#a23838;background:#f8e9e7}.empty{text-align:center;padding:34px 14px;color:var(--muted);background:#ffffff80;border:1px dashed #d9d7ce;border-radius:15px}.empty strong{display:block;color:var(--ink);margin-bottom:5px}.small-actions{display:flex;justify-content:flex-end;margin-top:12px}.footer{color:var(--muted);text-align:center;font-size:.8rem;margin:22px 0 0}@media(max-width:520px){.shell{padding:14px 12px 32px}.hero{padding:20px 16px;border-radius:19px}header{margin:6px 2px 20px}form{gap:6px}.primary{padding:11px 13px}.toolbar{align-items:flex-start;flex-direction:column}.filters{width:100%}}
+</style>
+</head>
+<body>
+<main class="shell">
+<header><div class="brand">my<span>day</span>.</div><div class="date" id="today"></div></header>
+<section class="hero" aria-labelledby="welcome">
+<div class="eyebrow">A fresh start, every day</div>
+<h1 id="welcome">Make room for<br>what matters.</h1>
+<p class="subtitle">One small step at a time. What would you like to get done?</p>
+<div class="progress-wrap"><span id="progress-label">0 of 0 done</span><div class="progress" role="progressbar" aria-label="Daily task progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress"><div id="progress-fill"></div></div></div>
+<form id="task-form"><input id="new-task" type="text" maxlength="180" placeholder="Add a task for today…" aria-label="New task" required><button class="primary" type="submit">+ Add</button></form>
+</section>
+<section aria-labelledby="task-heading">
+<div class="toolbar"><h2 id="task-heading">Your list</h2><div class="filters" role="group" aria-label="Filter tasks"><button class="filter active" data-filter="all" type="button">All</button><button class="filter" data-filter="active" type="button">To do</button><button class="filter" data-filter="done" type="button">Completed</button></div></div>
+<div id="tasks" aria-live="polite"></div><div class="small-actions"><button class="text-button" id="clear-done" type="button">Clear completed tasks</button></div>
+</section>
+<p class="footer">Your tasks are saved in this browser on this device.</p>
+</main>
+<script>
+const KEY="myday.tasks.v1";let tasks=[];let filter="all";
+try{tasks=JSON.parse(localStorage.getItem(KEY)||"[]");if(!Array.isArray(tasks))tasks=[]}catch(e){tasks=[]}
+const $=s=>document.querySelector(s);$("#today").textContent=new Date().toLocaleDateString(undefined,{weekday:"long",month:"short",day:"numeric"});
+function save(){try{localStorage.setItem(KEY,JSON.stringify(tasks))}catch(e){alert("Your browser could not save tasks. Check your storage settings.")}}
+function render(){const done=tasks.filter(t=>t.done).length,pct=tasks.length?Math.round(done/tasks.length*100):0;$("#progress-label").textContent=done+" of "+tasks.length+" done";$("#progress-fill").style.width=pct+"%";$("#progress").setAttribute("aria-valuenow",String(pct));document.querySelectorAll(".filter").forEach(b=>b.classList.toggle("active",b.dataset.filter===filter));const shown=tasks.filter(t=>filter==="all"||(filter==="active"&&!t.done)||(filter==="done"&&t.done)),list=$("#tasks");list.replaceChildren();if(!shown.length){const empty=document.createElement("div");empty.className="empty";const strong=document.createElement("strong");strong.textContent=filter==="done"?"Nothing completed yet":filter==="active"?"You're all caught up":"Your day is a blank page";const p=document.createElement("div");p.textContent=filter==="done"?"Tick a task when you've finished it.":filter==="active"?"Enjoy the breathing room, or add another task.":"Add one small thing you'd like to get done.";empty.append(strong,p);list.append(empty);return}shown.forEach(task=>{const row=document.createElement("div");row.className="task"+(task.done?" done":"");const check=document.createElement("input");check.type="checkbox";check.className="check";check.checked=!!task.done;check.setAttribute("aria-label","Mark "+task.text+" complete");check.addEventListener("change",()=>{task.done=check.checked;save();render()});const title=document.createElement("span");title.className="task-title";title.textContent=task.text;const del=document.createElement("button");del.className="delete";del.type="button";del.textContent="Delete";del.setAttribute("aria-label","Delete "+task.text);del.addEventListener("click",()=>{tasks=tasks.filter(t=>t.id!==task.id);save();render()});row.append(check,title,del);list.append(row)})}
+$("#task-form").addEventListener("submit",e=>{e.preventDefault();const input=$("#new-task"),text=input.value.trim();if(!text)return;tasks.unshift({id:Date.now().toString()+Math.random().toString(16).slice(2),text,done:false});save();input.value="";filter="all";render();input.focus()});
+document.querySelectorAll(".filter").forEach(b=>b.addEventListener("click",()=>{filter=b.dataset.filter;render()}));
+$("#clear-done").addEventListener("click",()=>{const n=tasks.filter(t=>t.done).length;if(n&&confirm("Remove "+n+" completed task"+(n===1?"":"s")+"?")){tasks=tasks.filter(t=>!t.done);save();render()}});
+render();
+</script>
+</body>
+</html>
