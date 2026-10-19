@@ -1,4 +1,4 @@
-name: Deploy My Day to GitHub Pages
+name: Deploy Fieldguide to GitHub Pages
 
 on:
   push:
@@ -25,8 +25,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Set up GitHub Pages
         uses: actions/configure-pages@v5
-        with:
-          enablement: true
+          
       - name: Upload website files
         uses: actions/upload-pages-artifact@v3
         with:
