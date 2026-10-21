@@ -40,9 +40,11 @@
 <label class="span2">Anteckningar<textarea class="field" id="notes" rows="2" placeholder="Drifttimmar, skick eller övrig information"></textarea></label>
 </div><div class="modal-actions"><button type="button" class="btn" id="cancelBtn">Avbryt</button><button type="submit" class="btn primary">Spara maskin</button></div></form></div></div><div class="toast" id="toast"></div>
 <script>
-const KEY='verkstad-maskinpark-v1';
+const KEY='verkstad-maskinpark-v2';
+const seedNames=['Automat','Stans','PP','PVC','Nobel','Hedvid','Ingrid','Rigmor','Rosa','Sigurd','Stefan','Åsa','Anita','Sture','starstånk','Anna-greta','Fabian','Gustav','Julia','Lillebror','Stora syster','Laila','Viktor','Bord & Såg','Dj (manuell)','Dj (7ton Display Paroc)','Lilla krokodil','Stora krokodil','Vandrande','Liten handstans','Anna','Stor anna','Dj musse','Musse','Gamla Musse','Musse AKW','Molle1','Molle2','Stereo bertil','Pipen-ultraljudsmaskin'];
 let machines=[];
 try{machines=JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){machines=[]}
+if(!machines.length){machines=seedNames.map((name,i)=>({uid:'seed-'+i,name,id:'',category:'',brand:'',location:'',owner:'',status:'Ej angiven',year:'',lastService:'',nextService:'',notes:''}));try{localStorage.setItem(KEY,JSON.stringify(machines))}catch(e){}}
 const $=id=>document.getElementById(id);
 $('today').textContent=new Intl.DateTimeFormat('sv-SE',{weekday:'short',day:'numeric',month:'short',year:'numeric'}).format(new Date());
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
