@@ -64,3 +64,7 @@ drop trigger if exists set_machines_updated_at on public.machines;
 create trigger set_machines_updated_at
 before update on public.machines
 for each row execute function public.set_machines_updated_at();
+
+-- Explicit least-privilege table grants for the browser client.
+revoke all on public.machines from anon;
+grant select, insert, update, delete on public.machines to authenticated;
